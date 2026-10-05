@@ -6,12 +6,15 @@ import {
   Link,
   useLocation,
   useParams,
+  useNavigate,
 } from 'react-router-dom';
 import 'bulma/css/bulma.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
 import { Tab } from './types/Tab';
-import { Tabs } from './components/Tabs';
+
+// Импортируем готовый компонент из библиотеки, как требует ревьюер
+import { Tabs } from 'react_tabs-js';
 
 const tabs: Tab[] = [
   { id: 'tab-1', title: 'Tab 1', content: 'Some text 1' },
@@ -25,17 +28,17 @@ const NotFoundPage = () => <h1 className="title">Page not found</h1>;
 
 const TabsPage = () => {
   const { tabId } = useParams();
-  const activeTab = tabs.find(tab => tab.id === tabId);
+  const navigate = useNavigate();
 
   return (
     <>
       <h1 className="title">Tabs page</h1>
-
-      <Tabs tabs={tabs} />
-
-      <div className="block" data-cy="TabContent">
-        {activeTab ? activeTab.content : 'Please select a tab'}
-      </div>
+      {/* Передаем параметры во внешний компонент */}
+      <Tabs
+        tabs={tabs}
+        selectedTabId={tabId}
+        onTabSelected={(newTabId: string) => navigate(`/tabs/${newTabId}`)}
+      />
     </>
   );
 };
