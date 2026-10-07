@@ -18,9 +18,7 @@ export const Tabs: React.FC<Props> = ({ tabs, selectedTabId }) => {
             data-cy="Tab"
             className={tab.id === selectedTabId ? 'is-active' : ''}
           >
-            <Link to={`/tabs/${tab.id}`}>
-              {tab.title}
-            </Link>
+            <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
           </li>
         ))}
       </ul>

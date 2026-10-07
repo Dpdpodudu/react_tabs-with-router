@@ -42,11 +42,10 @@ const TabsPage: React.FC = () => {
         onTabSelected={(newTabId: string) => navigate(`/tabs/${newTabId}`)}
       />
 
-      {!selectedTab && (
-        <div className="block" data-cy="TabContent">
-          Please select a tab
-        </div>
-      )}
+      {/* Выводим контент выбранной вкладки, а если ее нет — дефолтный текст */}
+      <div className="block" data-cy="TabContent">
+        {selectedTab ? selectedTab.content : 'Please select a tab'}
+      </div>
     </>
   );
 };
