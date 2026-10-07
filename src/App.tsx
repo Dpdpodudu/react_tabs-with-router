@@ -13,7 +13,7 @@ import '@fortawesome/fontawesome-free/css/all.css';
 import './App.scss';
 import { Tab } from './types/Tab';
 
-// Импортируем готовый компонент из библиотеки, как требует ревьюер
+// @ts-expect-error missing types for react_tabs-js
 import { Tabs } from 'react_tabs-js';
 
 const tabs: Tab[] = [
@@ -22,28 +22,36 @@ const tabs: Tab[] = [
   { id: 'tab-3', title: 'Tab 3', content: 'Some text 3' },
 ];
 
-const HomePage = () => <h1 className="title">Home page</h1>;
+const HomePage: React.FC = () => <h1 className="title">Home page</h1>;
 
-const NotFoundPage = () => <h1 className="title">Page not found</h1>;
+const NotFoundPage: React.FC = () => <h1 className="title">Page not found</h1>;
 
-const TabsPage = () => {
+const TabsPage: React.FC = () => {
   const { tabId } = useParams();
   const navigate = useNavigate();
+
+  const selectedTab = tabs.find(tab => tab.id === tabId);
 
   return (
     <>
       <h1 className="title">Tabs page</h1>
-      {/* Передаем параметры во внешний компонент */}
+
       <Tabs
         tabs={tabs}
-        selectedTabId={tabId}
+        selectedTabId={tabId || ''}
         onTabSelected={(newTabId: string) => navigate(`/tabs/${newTabId}`)}
       />
+
+      {!selectedTab && (
+        <div className="block" data-cy="TabContent">
+          Please select a tab
+        </div>
+      )}
     </>
   );
 };
 
-export const App = () => {
+export const App: React.FC = () => {
   const location = useLocation();
 
   return (
